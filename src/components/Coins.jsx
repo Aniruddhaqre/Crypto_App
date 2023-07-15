@@ -1,6 +1,7 @@
 import {
   Button,
-  Center,
+  RadioGroup,
+  Radio,
   Container,
   HStack,
   Heading,
@@ -37,7 +38,6 @@ const Coins = () => {
           `${server}/coins/markets?vs_currency=${currency}&page=${page}`
         );
         setCoins(data);
-        console.log(data);
         setLoading(false);
       } catch (error) {
         setError(true);
@@ -56,9 +56,18 @@ const Coins = () => {
         <Loader />
       ) : (
         <>
+
+        <RadioGroup value={currency} onChange={setCurrency} p={'8'}>
+          <HStack spacing={'4'}>
+            <Radio value={"inr"}>INR</Radio>
+            <Radio value={"eur"}>EUR</Radio>
+            <Radio value={"usd"}>USD</Radio>
+          </HStack>
+
+        </RadioGroup>
           <HStack wrap={"wrap"} alignItems={"center"} justifyContent={"space-evenly"}>
             {coins.map((c) => (
-              <CoinCard
+              <CoinCard key={c.id}
                 id={c.id}
                 image={c.image}
                 name={c.name}
