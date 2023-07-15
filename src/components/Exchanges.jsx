@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { server } from "../main";
 import {
+  Button,
   Container,
   HStack,
   Heading,
@@ -16,11 +17,22 @@ const Exchanges = () => {
   const [exchanges, setExchanges] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [page, setPage] = useState(1);
+
+  const nextPage = () => {
+    setPage(page + 1);
+    setLoading(true);
+  };
+
+  const prevPage = () => {
+    setPage(page - 1);
+    setLoading(true);
+  };
 
   useEffect(() => {
     const fetchExchanges = async () => {
       try {
-        const { data } = await axios.get(`${server}/exchanges`);
+        const { data } = await axios.get(`${server}/exchanges?page=${page}`);
 
         setExchanges(data);
         setLoading(false);
@@ -31,7 +43,7 @@ const Exchanges = () => {
     };
 
     fetchExchanges();
-  }, []);
+  }, [page]);
 
   if (error) return <ErrorComponent message={"Error while fetching data"} />;
 
@@ -41,6 +53,7 @@ const Exchanges = () => {
         <Loader />
       ) : (
         <>
+
           <HStack wrap={"wrap"} justifyContent={"space-evenly"}>
             {exchanges.map((i) => (
               <ExchangeCard
@@ -51,6 +64,29 @@ const Exchanges = () => {
                 key={i.id}
               />
             ))}
+          </HStack>
+
+          <HStack justifyContent={"center"} marginBottom={"4"}>
+            {page - 1 !== 0 ? (
+              <Button bgColor={"blackAlpha.900"} color={"whiteAlpha.900"} onClick={() => prevPage()}>
+                {page - 1}
+              </Button>
+            ) : (
+              <a></a>
+            )}
+            <Button
+              bgColor={"whiteAlpha.900"}
+              color={"blackAlpha.900"}
+            >
+              {page}
+            </Button>
+            <Button
+              bgColor={"blackAlpha.900"}
+              color={"white"}
+              onClick={() => nextPage()}
+            >
+              {page + 1}
+            </Button>
           </HStack>
         </>
       )}
