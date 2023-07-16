@@ -1,14 +1,46 @@
-import { Box, Image, Text } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Image, Text } from "@chakra-ui/react";
+import React from "react";
+import btc from "../assets/btc.webp";
+import { motion } from "framer-motion";
 
 const Home = () => {
   return (
-    <Box bgColor={"blackAlpha.900"} w={"full"} h={"85vh"}>
-      <Image w={"full"} h={"full"} objectFit={"cover"} src={"https://images.pexels.com/photos/14902678/pexels-photo-14902678.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"}/>
+    <Box bgColor={"blackAlpha.900"} w={"full"} h={"95vh"}>
+      <motion.div style={{
+        height:"80vh",
+      }}
+      animate={{
+        translateY:"20px"
+      }}
+      transition={{
+        duration:2,
+        repeat:Infinity,
+        repeatType:"reverse"
+      }}
 
-      <Text fontSize={"6xl"} textAlign={"center"} fontWeight={'thin'} color={"whiteAlpha.700"} bgColor={'blackAlpha.900'}>Crypto</Text>
+      >
+        <Image
+          w={"full"}
+          h={"full"}
+          filter={"greyscale(1)"}
+          objectFit={"contain"}
+          src={btc}
+        
+        />
+      </motion.div>
+
+      <Text
+        fontSize={"6xl"}
+        textAlign={"center"}
+        fontWeight={"thin"}
+        color={"whiteAlpha.700"}
+        overflow={"hidden"}
+        mt={"-19"}
+      >
+        Crypto
+      </Text>
     </Box>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
