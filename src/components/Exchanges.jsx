@@ -100,6 +100,7 @@ const ExchangeCard = ({ name, image, rank, url }) => {
       <VStack
         w={"52"}
         shadow={"lg"}
+        
         p={"8"}
         borderRadius={"lg"}
         transition={"all 0.3s"}
