@@ -37,14 +37,13 @@ const CoinDetails = () => {
   const currencySymbol =
     currency === "inr" ? "₹" : currency === "eur" ? "€" : "$";
 
-    const btns = ["24h" , "7d", "14d" , "30d", "60d", "200d","365d", "max"];
+  const btns = ["24h", "7d", "14d", "30d", "60d", "200d", "365d", "max"];
 
-
-    const switchChartStats = (key) => {
-        if(key !== days){
-          setDays(key)
-        }
+  const switchChartStats = (key) => {
+    if (key !== days) {
+      setDays(key);
     }
+  };
 
   useEffect(() => {
     const fetchCoin = async () => {
@@ -55,7 +54,8 @@ const CoinDetails = () => {
           `${server}/coins/${params.id}/market_chart?vs_currency=${currency}&days=${days}`
         );
         setCoin(data);
-        setChartArray(chartData.prices)    
+        console.log(data);
+        setChartArray(chartData.prices);
         setLoading(false);
       } catch (error) {
         setError(true);
@@ -65,7 +65,6 @@ const CoinDetails = () => {
 
     fetchCoin();
   }, [params.id, currency, days]);
-
 
   if (error)
     return <ErrorComponent message={"Error while fetching Coin Data"} />;
@@ -77,15 +76,15 @@ const CoinDetails = () => {
       ) : (
         <>
           <Box p={"8"} borderWidth={"1"}>
-            <Chart currency={currencySymbol} arr={chartArray} days={days}/>
+            <Chart currency={currencySymbol} arr={chartArray} days={days} />
           </Box>
 
-          <HStack p={'4' } overflowX={"auto"}>
-              {
-                btns.map((i) => (
-                  <Button key={i} onClick={() => switchChartStats(i)}>{i}</Button>
-                ))
-              }
+          <HStack p={"4"} overflowX={"auto"}>
+            {btns.map((i) => (
+              <Button key={i} onClick={() => switchChartStats(i)}>
+                {i}
+              </Button>
+            ))}
           </HStack>
 
           <RadioGroup value={currency} onChange={setCurrency} p={"8"}>
@@ -132,6 +131,7 @@ const CoinDetails = () => {
             <CustomBar
               high={`${currencySymbol}${coin.market_data.high_24h[currency]}`}
               low={`${currencySymbol}${coin.market_data.low_24h[currency]}`}
+              change={coin.changeString}
             />
 
             <Box w={"full"} p={"4"}>
@@ -160,8 +160,6 @@ const CoinDetails = () => {
               />
             </Box>
           </VStack>
-
-        
         </>
       )}
     </Container>
